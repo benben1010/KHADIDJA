@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Heartbeat for FULLA 💓</title>
 
-    <!-- Optional: Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,10 +13,15 @@
     />
 
     <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root{
+        --bg1:#070711;
+        --bg2:#0a0820;
+        --pink:#ff4fa0;
+        --pink2:#ff9ac6;
+        --violet:#7c3aed;
+        --cyan:#22d3ee;
       }
 
       body {
@@ -28,213 +32,267 @@
         display: grid;
         place-items: center;
         padding: 24px;
-
-        /* Deep night base */
-        background: radial-gradient(circle at 20% 20%, #2a1555 0%, #070816 45%, #04040d 100%);
+        background:
+          radial-gradient(1000px 700px at 20% 10%, rgba(124,58,237,.22), transparent 55%),
+          radial-gradient(900px 650px at 80% 20%, rgba(255,79,160,.18), transparent 55%),
+          radial-gradient(1100px 800px at 50% 100%, rgba(34,211,238,.10), transparent 60%),
+          linear-gradient(180deg, var(--bg2), var(--bg1));
       }
 
-      /* ✨ Animated star glitter layer */
-      body::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image:
-          radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.8) 50%, transparent 60%),
-          radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,.6) 50%, transparent 60%),
-          radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,.5) 50%, transparent 60%),
-          radial-gradient(2px 2px at 30% 80%, rgba(255,255,255,.7) 50%, transparent 60%),
-          radial-gradient(1px 1px at 55% 55%, rgba(255,255,255,.4) 50%, transparent 60%),
-          radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,.4) 50%, transparent 60%);
-        opacity: 0.35;
-        animation: twinkle 6s ease-in-out infinite;
-        pointer-events: none;
+      /* Cinematic vignette */
+      body::before{
+        content:"";
+        position:absolute;
+        inset:-1px;
+        background:
+          radial-gradient(circle at 50% 40%, transparent 45%, rgba(0,0,0,.65) 78%, rgba(0,0,0,.88) 100%);
+        pointer-events:none;
+        z-index:0;
       }
 
-      @keyframes twinkle {
-        0%, 100% { opacity: 0.25; transform: scale(1); }
-        50% { opacity: 0.55; transform: scale(1.02); }
+      /* Film grain */
+      body::after{
+        content:"";
+        position:absolute;
+        inset:-2px;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+        mix-blend-mode: overlay;
+        opacity:.14;
+        animation: grain 6s steps(10) infinite;
+        pointer-events:none;
+        z-index:1;
       }
 
-      /* 🌈 Aurora blobs */
-      .blob {
-        position: absolute;
-        width: 420px;
-        height: 420px;
-        border-radius: 50%;
-        filter: blur(60px);
-        opacity: 0.35;
-        animation: drift 10s ease-in-out infinite;
-        pointer-events: none;
-      }
-      .blob.one {
-        background: radial-gradient(circle at 30% 30%, #ff5ea8, transparent 60%);
-        top: -120px;
-        left: -120px;
-      }
-      .blob.two {
-        background: radial-gradient(circle at 30% 30%, #7c3aed, transparent 60%);
-        bottom: -160px;
-        right: -140px;
-        animation-delay: 1.2s;
-      }
-      @keyframes drift {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(18px, -12px) scale(1.04); }
+      @keyframes grain{
+        0%,100%{ transform: translate(0,0); }
+        10%{ transform: translate(-4%, -2%); }
+        20%{ transform: translate(3%, 2%); }
+        30%{ transform: translate(-2%, 4%); }
+        40%{ transform: translate(4%, -3%); }
+        50%{ transform: translate(-3%, 2%); }
+        60%{ transform: translate(2%, -4%); }
+        70%{ transform: translate(-1%, 3%); }
+        80%{ transform: translate(3%, -1%); }
+        90%{ transform: translate(-4%, 1%); }
       }
 
-      /* 🧊 Glass card */
-      .card {
-        position: relative;
-        width: min(520px, 95vw);
-        padding: 34px 26px 28px;
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+      /* Slow moving fog */
+      .fog{
+        position:absolute;
+        inset:-20%;
+        background:
+          radial-gradient(circle at 20% 30%, rgba(255,255,255,.06), transparent 55%),
+          radial-gradient(circle at 70% 60%, rgba(255,255,255,.05), transparent 58%),
+          radial-gradient(circle at 50% 50%, rgba(255,255,255,.04), transparent 60%);
+        filter: blur(18px);
+        opacity:.55;
+        animation: fogMove 18s ease-in-out infinite;
+        pointer-events:none;
+        z-index:1;
+      }
+
+      @keyframes fogMove{
+        0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.02); }
+        50%{ transform: translate3d(2%, 2%, 0) scale(1.06); }
+      }
+
+      /* Subtle light rays */
+      .rays{
+        position:absolute;
+        inset:-10%;
+        background:
+          conic-gradient(from 210deg at 50% 20%,
+            rgba(255,79,160,.08),
+            transparent 25%,
+            rgba(124,58,237,.06),
+            transparent 55%,
+            rgba(34,211,238,.05),
+            transparent 85%);
+        opacity:.35;
+        filter: blur(6px);
+        animation: rays 14s ease-in-out infinite;
+        pointer-events:none;
+        z-index:1;
+      }
+
+      @keyframes rays{
+        0%,100%{ transform: rotate(-2deg) scale(1.02); }
+        50%{ transform: rotate(2deg) scale(1.05); }
+      }
+
+      /* Glass cinematic card */
+      .card{
+        position:relative;
+        width:min(540px, 95vw);
+        padding: 38px 28px 30px;
+        border-radius: 26px;
+        background: rgba(255,255,255,.055);
+        border: 1px solid rgba(255,255,255,.11);
         box-shadow:
-          0 20px 60px rgba(0, 0, 0, 0.55),
-          0 0 30px rgba(255, 94, 168, 0.12);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        text-align: center;
-        z-index: 2;
+          0 30px 90px rgba(0,0,0,.65),
+          0 0 55px rgba(255,79,160,.08);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        text-align:center;
+        z-index:2;
+        overflow:hidden;
       }
 
-      /* Top spark line */
-      .spark {
-        width: 120px;
+      /* Inner highlight */
+      .card::before{
+        content:"";
+        position:absolute;
+        inset:-2px;
+        background:
+          radial-gradient(600px 260px at 30% 10%, rgba(255,79,160,.14), transparent 60%),
+          radial-gradient(520px 240px at 80% 25%, rgba(124,58,237,.12), transparent 62%);
+        opacity:.7;
+        pointer-events:none;
+      }
+
+      /* Top cinematic spark line */
+      .spark{
+        width: 140px;
         height: 4px;
         margin: 0 auto 18px;
-        border-radius: 999px;
-        background: linear-gradient(90deg, transparent, rgba(255, 94, 168, .9), transparent);
-        filter: drop-shadow(0 0 10px rgba(255, 94, 168, 0.5));
+        border-radius:999px;
+        background: linear-gradient(90deg, transparent, rgba(255,79,160,.95), transparent);
+        filter: drop-shadow(0 0 14px rgba(255,79,160,.45));
       }
 
-      @keyframes glow {
-        0%,
-        100% { text-shadow: 0 0 10px rgba(255,107,154,.7); }
-        50% { text-shadow: 0 0 26px rgba(255,142,181,.9), 0 0 40px rgba(255,107,154,.7); }
-      }
-
-      h1 {
-        font-size: clamp(1.6rem, 3.6vw, 2.1rem);
+      h1{
+        font-size: clamp(1.65rem, 3.7vw, 2.15rem);
         letter-spacing: 1px;
+        color: #ffd0e6;
+        text-shadow: 0 0 18px rgba(255,79,160,.25);
         margin-bottom: 10px;
-        color: #ffb0d1;
-        animation: glow 2s infinite ease-in-out;
       }
 
-      p {
-        color: rgba(203, 213, 225, 0.9);
+      p{
+        color: rgba(203,213,225,.9);
         margin-bottom: 22px;
         font-size: clamp(1rem, 2.8vw, 1.08rem);
       }
 
-      /* 💓 Heart — gradient + gloss */
-      .heart {
-        width: 120px;
-        height: 120px;
+      /* Heart: cinematic neon + gloss */
+      .heart{
+        width: 124px;
+        height: 124px;
         position: relative;
         transform: rotate(-45deg);
         cursor: pointer;
-        margin: 6px auto 0;
+        margin: 10px auto 0;
         animation: beat 1s infinite ease-in-out;
         touch-action: manipulation;
 
-        background: linear-gradient(135deg, #ff3d87 0%, #ff77b4 55%, #ffc3dd 120%);
+        background: linear-gradient(135deg, #ff2f86 0%, #ff6fb6 55%, #ffd3e7 120%);
         box-shadow:
-          0 0 22px rgba(255, 107, 154, 0.55),
-          0 0 55px rgba(255, 142, 181, 0.35);
+          0 0 26px rgba(255,79,160,.55),
+          0 0 80px rgba(124,58,237,.18);
       }
 
       .heart::before,
-      .heart::after {
-        content: '';
-        width: 120px;
-        height: 120px;
-        position: absolute;
-        border-radius: 50%;
+      .heart::after{
+        content:"";
+        width: 124px;
+        height: 124px;
+        position:absolute;
+        border-radius:50%;
         background: inherit;
       }
+      .heart::before{ top:-62px; left:0; }
+      .heart::after{ top:0; left:62px; }
 
-      .heart::before { top: -60px; left: 0; }
-      .heart::after  { top: 0; left: 60px; }
-
-      /* Gloss highlight */
-      .heart .shine {
-        position: absolute;
-        inset: -10px;
+      /* Gloss + specular sweep */
+      .heart .shine{
+        position:absolute;
+        inset:-14px;
         transform: rotate(45deg);
-        border-radius: 26px;
-        background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.45), transparent 55%);
-        opacity: 0.7;
-        pointer-events: none;
+        border-radius: 28px;
+        background: radial-gradient(circle at 30% 22%, rgba(255,255,255,.52), transparent 55%);
         mix-blend-mode: screen;
+        opacity: .78;
+        pointer-events:none;
       }
 
-      /* Soft hover */
-      .heart:hover {
-        filter: brightness(1.07);
+      .heart .sweep{
+        position:absolute;
+        inset:-22px;
+        transform: rotate(45deg);
+        border-radius: 30px;
+        background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.22) 50%, transparent 60%);
+        opacity: .55;
+        animation: sweep 3.5s ease-in-out infinite;
+        pointer-events:none;
       }
 
-      .heart:active {
-        transform: rotate(-45deg) scale(1.28);
+      @keyframes sweep{
+        0%{ transform: rotate(45deg) translateX(-30%); }
+        50%{ transform: rotate(45deg) translateX(30%); }
+        100%{ transform: rotate(45deg) translateX(-30%); }
       }
 
-      @keyframes beat {
-        0%,
-        100% { transform: rotate(-45deg) scale(1); }
-        50% { transform: rotate(-45deg) scale(1.18); }
+      .heart:hover{ filter: brightness(1.08); }
+      .heart:active{ transform: rotate(-45deg) scale(1.28); }
+
+      @keyframes beat{
+        0%,100%{ transform: rotate(-45deg) scale(1); }
+        50%{ transform: rotate(-45deg) scale(1.18); }
       }
 
       /* Message */
-      .message {
+      .message{
         margin-top: 22px;
         font-size: 1.15em;
         color: #ffd0e6;
-        min-height: 32px;
+        min-height: 34px;
         font-weight: 600;
-        transition: opacity 0.35s ease, transform 0.35s ease;
         opacity: 0;
-        transform: translateY(6px);
-        text-shadow: 0 0 10px rgba(255, 142, 181, 0.25);
+        transform: translateY(10px);
+        transition: opacity .35s ease, transform .35s ease;
+        text-shadow: 0 0 18px rgba(255,79,160,.18);
       }
-      .message.show {
+      .message.show{
         opacity: 1;
         transform: translateY(0);
       }
 
-      /* Floating hearts: blur + depth */
-      .floating-heart {
-        position: absolute;
-        font-size: 20px;
-        opacity: 0.95;
-        animation: floatUp 3s ease-out forwards;
-        pointer-events: none;
-        filter: drop-shadow(0 0 10px rgba(255, 107, 154, 0.25));
-      }
-
-      @keyframes floatUp {
-        0%   { transform: translateY(0) scale(1); opacity: 1; }
-        100% { transform: translateY(-420px) scale(1.5); opacity: 0; }
-      }
-
-      /* Small footer text */
-      .hint {
+      .hint{
         margin-top: 18px;
-        font-size: 0.92rem;
-        color: rgba(203, 213, 225, 0.7);
+        font-size: .92rem;
+        color: rgba(203,213,225,.7);
       }
 
-      /* Reduced motion accessibility */
-      @media (prefers-reduced-motion: reduce) {
-        * { animation: none !important; transition: none !important; }
+      /* Floating hearts: cinematic particles */
+      .floating-heart{
+        position:absolute;
+        pointer-events:none;
+        animation: floatUp 3.2s ease-out forwards;
+        filter: blur(.2px) drop-shadow(0 0 12px rgba(255,79,160,.20));
+        opacity:.95;
+      }
+
+      @keyframes floatUp{
+        0%{
+          transform: translateY(0) translateX(0) scale(1);
+          opacity: 1;
+        }
+        100%{
+          transform: translateY(-460px) translateX(var(--drift, 0px)) scale(1.6);
+          opacity: 0;
+        }
+      }
+
+      /* Reduced motion */
+      @media (prefers-reduced-motion: reduce){
+        *{ animation:none !important; transition:none !important; }
       }
     </style>
   </head>
 
   <body>
-    <div class="blob one"></div>
-    <div class="blob two"></div>
+    <div class="fog"></div>
+    <div class="rays"></div>
 
     <div class="card">
       <div class="spark"></div>
@@ -243,10 +301,11 @@
 
       <div class="heart" id="heart" aria-label="Heart">
         <div class="shine"></div>
+        <div class="sweep"></div>
       </div>
 
       <div class="message" id="message"></div>
-      <div class="hint">💓 Tap again for another message</div>
+      <div class="hint">✨ Tap again for another message</div>
 
       <audio id="beatSound" src="heartbeat.mp3" preload="auto"></audio>
     </div>
@@ -255,7 +314,6 @@
       const heart = document.getElementById('heart');
       const message = document.getElementById('message');
       const sound = document.getElementById('beatSound');
-      const body = document.body;
 
       const lines = [
         'Every beat is for you 💓',
@@ -278,13 +336,9 @@
 
       const floatingEmojis = ['💖', '💘', '💓', '💞', '✨'];
 
-      function pulseBackground() {
-        body.style.background =
-          'radial-gradient(circle at 20% 20%, #3b1b72 0%, #070816 45%, #04040d 100%)';
-        setTimeout(() => {
-          body.style.background =
-            'radial-gradient(circle at 20% 20%, #2a1555 0%, #070816 45%, #04040d 100%)';
-        }, 260);
+      function playBeatSound() {
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
       }
 
       function speedUpHeartBeat() {
@@ -294,50 +348,46 @@
         }, 650);
       }
 
-      function playBeatSound() {
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
+      function showRandomMessage() {
+        const line = lines[Math.floor(Math.random() * lines.length)];
+        message.textContent = line;
+        message.classList.add('show');
+        setTimeout(() => message.classList.remove('show'), 2700);
       }
 
-      function spawnFloatingHeartsFromHeart() {
+      function spawnCinematicParticles() {
         const rect = heart.getBoundingClientRect();
-        const originX = rect.left + rect.width / 2;
-        const originY = rect.top + rect.height / 2;
+        const ox = rect.left + rect.width / 2;
+        const oy = rect.top + rect.height / 2;
 
-        for (let i = 0; i < 7; i++) {
+        const count = 10; // more cinematic particles
+        for (let i = 0; i < count; i++) {
           const el = document.createElement('div');
           el.className = 'floating-heart';
           el.textContent = floatingEmojis[Math.floor(Math.random() * floatingEmojis.length)];
 
-          const spread = 50;
-          el.style.left = originX + (Math.random() * spread - spread / 2) + 'px';
-          el.style.top = originY + (Math.random() * spread - spread / 2) + 'px';
+          const spread = 70;
+          el.style.left = ox + (Math.random() * spread - spread / 2) + 'px';
+          el.style.top = oy + (Math.random() * spread - spread / 2) + 'px';
 
-          const dur = 2.0 + Math.random() * 1.6;
+          const dur = 2.2 + Math.random() * 1.8;
           el.style.animationDuration = dur + 's';
 
-          // depth: some smaller + blurrier
-          const scale = 0.9 + Math.random() * 0.9;
-          el.style.fontSize = 16 + Math.random() * 18 + 'px';
-          el.style.opacity = (0.55 + Math.random() * 0.45).toFixed(2);
+          el.style.fontSize = (14 + Math.random() * 22) + 'px';
+          el.style.opacity = (0.45 + Math.random() * 0.55).toFixed(2);
+
+          const drift = (Math.random() * 140 - 70).toFixed(0);
+          el.style.setProperty('--drift', drift + 'px');
 
           document.body.appendChild(el);
           setTimeout(() => el.remove(), dur * 1000);
         }
       }
 
-      function showRandomMessage() {
-        const line = lines[Math.floor(Math.random() * lines.length)];
-        message.textContent = line;
-        message.classList.add('show');
-        setTimeout(() => message.classList.remove('show'), 2600);
-      }
-
       heart.addEventListener('click', () => {
-        pulseBackground();
         speedUpHeartBeat();
         playBeatSound();
-        spawnFloatingHeartsFromHeart();
+        spawnCinematicParticles();
         showRandomMessage();
       });
     </script>
