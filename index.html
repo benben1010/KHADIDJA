@@ -120,7 +120,102 @@
         50%{ transform: rotate(2deg) scale(1.05); }
       }
 
-      /* Glass cinematic card */
+      /* === MOVIE TITLE INTRO OVERLAY === */
+      .intro{
+        position:absolute;
+        inset:0;
+        display:grid;
+        place-items:center;
+        z-index:5;
+        pointer-events:none;
+        background:
+          radial-gradient(circle at 50% 45%, rgba(255,255,255,.08), transparent 55%),
+          linear-gradient(180deg, rgba(0,0,0,.92), rgba(0,0,0,.72));
+        animation: introFadeOut 1.2s ease forwards;
+        animation-delay: 4.2s; /* total intro duration */
+      }
+
+      @keyframes introFadeOut{
+        to{ opacity:0; visibility:hidden; }
+      }
+
+      .intro-inner{
+        text-align:center;
+        transform: translateY(10px) scale(.98);
+        animation: introZoom 4.2s ease forwards;
+      }
+
+      @keyframes introZoom{
+        0% { opacity:0; transform: translateY(18px) scale(.96); filter: blur(2px); }
+        18% { opacity:1; transform: translateY(6px) scale(1.0); filter: blur(0); }
+        75% { opacity:1; transform: translateY(-2px) scale(1.03); }
+        100% { opacity:1; transform: translateY(-6px) scale(1.05); }
+      }
+
+      .intro-top{
+        letter-spacing: 0.38em;
+        font-size: .85rem;
+        text-transform: uppercase;
+        color: rgba(203,213,225,.78);
+        margin-bottom: 14px;
+      }
+
+      .intro-title{
+        font-size: clamp(2.0rem, 6.4vw, 3.2rem);
+        letter-spacing: 0.06em;
+        font-weight: 700;
+        color: rgba(255, 225, 238, 0.98);
+        text-shadow:
+          0 0 22px rgba(255,79,160,.20),
+          0 0 60px rgba(124,58,237,.16);
+        position: relative;
+        display:inline-block;
+      }
+
+      /* Shimmer sweep across title */
+      .intro-title::after{
+        content:"";
+        position:absolute;
+        inset:-12px -22px;
+        background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.25) 50%, transparent 65%);
+        transform: translateX(-40%);
+        opacity:.75;
+        filter: blur(1px);
+        animation: titleShimmer 2.2s ease-in-out infinite;
+        pointer-events:none;
+        mix-blend-mode: screen;
+      }
+
+      @keyframes titleShimmer{
+        0%{ transform: translateX(-45%); }
+        50%{ transform: translateX(45%); }
+        100%{ transform: translateX(-45%); }
+      }
+
+      .intro-sub{
+        margin-top: 14px;
+        font-size: 1rem;
+        color: rgba(203,213,225,.85);
+        letter-spacing: .04em;
+      }
+
+      /* Subtle “Press to skip” hint */
+      .intro-skip{
+        position:absolute;
+        bottom: 26px;
+        width: 100%;
+        text-align:center;
+        font-size: .88rem;
+        color: rgba(203,213,225,.65);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        opacity:0;
+        animation: skipIn 1s ease forwards;
+        animation-delay: 1.2s;
+      }
+      @keyframes skipIn{ to{ opacity:1; } }
+
+      /* === Main content card === */
       .card{
         position:relative;
         width:min(540px, 95vw);
@@ -136,9 +231,18 @@
         text-align:center;
         z-index:2;
         overflow:hidden;
+
+        /* Start slightly hidden, then fade in after intro */
+        opacity: 0;
+        transform: translateY(10px) scale(.98);
+        animation: contentIn 1s ease forwards;
+        animation-delay: 4.1s;
       }
 
-      /* Inner highlight */
+      @keyframes contentIn{
+        to{ opacity:1; transform: translateY(0) scale(1); }
+      }
+
       .card::before{
         content:"";
         position:absolute;
@@ -150,7 +254,6 @@
         pointer-events:none;
       }
 
-      /* Top cinematic spark line */
       .spark{
         width: 140px;
         height: 4px;
@@ -174,7 +277,6 @@
         font-size: clamp(1rem, 2.8vw, 1.08rem);
       }
 
-      /* Heart: cinematic neon + gloss */
       .heart{
         width: 124px;
         height: 124px;
@@ -203,7 +305,6 @@
       .heart::before{ top:-62px; left:0; }
       .heart::after{ top:0; left:62px; }
 
-      /* Gloss + specular sweep */
       .heart .shine{
         position:absolute;
         inset:-14px;
@@ -240,7 +341,6 @@
         50%{ transform: rotate(-45deg) scale(1.18); }
       }
 
-      /* Message */
       .message{
         margin-top: 22px;
         font-size: 1.15em;
@@ -263,7 +363,6 @@
         color: rgba(203,213,225,.7);
       }
 
-      /* Floating hearts: cinematic particles */
       .floating-heart{
         position:absolute;
         pointer-events:none;
@@ -283,9 +382,10 @@
         }
       }
 
-      /* Reduced motion */
       @media (prefers-reduced-motion: reduce){
         *{ animation:none !important; transition:none !important; }
+        .intro{ display:none; }
+        .card{ opacity:1; transform:none; }
       }
     </style>
   </head>
@@ -294,7 +394,18 @@
     <div class="fog"></div>
     <div class="rays"></div>
 
-    <div class="card">
+    <!-- MOVIE TITLE INTRO -->
+    <div class="intro" id="intro">
+      <div class="intro-inner">
+        <div class="intro-top">A HEARTBEAT STORY</div>
+        <div class="intro-title">KHADIDJA 💖</div>
+        <div class="intro-sub">Touch the heart… and the night will speak.</div>
+      </div>
+      <div class="intro-skip">Click anywhere to skip</div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="card" id="card">
       <div class="spark"></div>
       <h1>KHADIDJA 💖</h1>
       <p>Touch the heart and feel how it beats for you.</p>
@@ -314,6 +425,9 @@
       const heart = document.getElementById('heart');
       const message = document.getElementById('message');
       const sound = document.getElementById('beatSound');
+
+      const intro = document.getElementById('intro');
+      const card = document.getElementById('card');
 
       const lines = [
         'Every beat is for you 💓',
@@ -335,6 +449,26 @@
       ];
 
       const floatingEmojis = ['💖', '💘', '💓', '💞', '✨'];
+
+      function skipIntro() {
+        if (!intro) return;
+        intro.style.animation = 'none';
+        intro.style.opacity = '0';
+        intro.style.visibility = 'hidden';
+
+        // Show card immediately if skipped
+        card.style.animation = 'none';
+        card.style.opacity = '1';
+        card.style.transform = 'none';
+      }
+
+      // Click anywhere to skip intro
+      window.addEventListener('click', (e) => {
+        // If intro is still visible, skip it
+        if (getComputedStyle(intro).visibility !== 'hidden' && intro.style.opacity !== '0') {
+          skipIntro();
+        }
+      }, { once: true });
 
       function playBeatSound() {
         sound.currentTime = 0;
@@ -360,7 +494,7 @@
         const ox = rect.left + rect.width / 2;
         const oy = rect.top + rect.height / 2;
 
-        const count = 10; // more cinematic particles
+        const count = 10;
         for (let i = 0; i < count; i++) {
           const el = document.createElement('div');
           el.className = 'floating-heart';
