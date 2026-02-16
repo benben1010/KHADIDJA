@@ -1,399 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>Pink Heart Snow 💗</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Heartbeat for KHADIDJA 💖</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body{
-  font-family:'Poppins',sans-serif;
-  height:100vh;
-  overflow:hidden;
-  background:radial-gradient(circle at center,#0c0c1f 0%,#050510 60%,#000 100%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-}
+  body{
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    color: #fff;
+    display: grid;
+    place-items: center;
 
-/* ===== Falling Pink Heart Snow ===== */
+    /* Deep night base */
+    background:
+      radial-gradient(900px 650px at 20% 15%, rgba(124,58,237,.22), transparent 55%),
+      radial-gradient(850px 620px at 80% 20%, rgba(255,79,160,.18), transparent 55%),
+      radial-gradient(1000px 780px at 50% 105%, rgba(34,211,238,.10), transparent 60%),
+      linear-gradient(180deg, #0a0820, #050510, #000);
+  }
 
-.heart-snow{
-  position:fixed;
-  top:-10vh;
-  pointer-events:none;
-  user-select:none;
-  z-index:1;
-  animation:fall linear infinite;
-  opacity:0.85;
-  filter:drop-shadow(0 0 8px rgba(255,105,180,0.4));
-}
+  /* Cinematic vignette */
+  body::before{
+    content:"";
+    position: absolute;
+    inset: -1px;
+    background: radial-gradient(circle at 50% 40%, transparent 45%, rgba(0,0,0,.65) 78%, rgba(0,0,0,.88) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-@keyframes fall{
-  0%{transform:translateY(-10vh) translateX(0) rotate(0deg);}
-  100%{transform:translateY(110vh) translateX(var(--drift)) rotate(360deg);}
-}
+  /* Moonlight shimmer */
+  .moonlight{
+    position: absolute;
+    inset: -10%;
+    background:
+      radial-gradient(500px 500px at 70% 20%, rgba(255,255,255,.10), transparent 55%),
+      radial-gradient(900px 700px at 75% 25%, rgba(255,255,255,.06), transparent 62%);
+    filter: blur(6px);
+    opacity: .8;
+    animation: moonPulse 10s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes moonPulse{
+    0%,100% { opacity: .55; transform: translate(0,0) scale(1); }
+    50% { opacity: .85; transform: translate(-6px, 4px) scale(1.02); }
+  }
 
-/* ===== Cinematic Intro ===== */
+  /* Sparkle layer container (for z-index control) */
+  .sparkle-layer{
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
 
-.intro{
-  position:absolute;
-  inset:0;
-  background:#000;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  animation:introFade 5s forwards;
-  z-index:5;
-}
+  /* Center text */
+  .center{
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 18px 22px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.10);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 24px 80px rgba(0,0,0,.55);
+  }
 
-@keyframes introFade{
-  0%,85%{opacity:1;}
-  100%{opacity:0;visibility:hidden;}
-}
+  .center h1{
+    font-size: clamp(2rem, 6vw, 3.1rem);
+    color: #ffb6d5;
+    text-shadow: 0 0 22px rgba(255,105,180,.55);
+    letter-spacing: 0.04em;
+  }
 
-.intro h2{
-  letter-spacing:0.4em;
-  font-size:0.9rem;
-  opacity:0.6;
-}
+  .center p{
+    margin-top: 10px;
+    color: rgba(251,207,232,.85);
+    font-size: clamp(1rem, 2.8vw, 1.08rem);
+  }
 
-.intro h1{
-  font-size:clamp(2rem,6vw,3rem);
-  margin:20px 0;
-  text-shadow:0 0 20px rgba(255,79,160,0.5);
-  animation:titleZoom 5s ease forwards;
-}
+  /* ---------- Pink Heart Snow ---------- */
+  .snow-heart{
+    position: fixed;
+    top: -12vh;
+    pointer-events: none;
+    user-select: none;
+    z-index: 2;
+    will-change: transform, opacity;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    opacity: 0.95;
+    filter: drop-shadow(0 0 10px rgba(255,105,180,.35));
+  }
 
-@keyframes titleZoom{
-  0%{opacity:0;transform:scale(0.9);}
-  20%{opacity:1;transform:scale(1);}
-  100%{transform:scale(1.05);}
-}
+  @keyframes fall{
+    0%{
+      transform: translate3d(0,-12vh,0) translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    10%{ opacity: 1; }
+    100%{
+      transform: translate3d(0,112vh,0) translateX(var(--drift)) rotate(360deg);
+      opacity: 0.85;
+    }
+  }
 
-.director{
-  margin-top:20px;
-  letter-spacing:0.3em;
-  font-size:0.9rem;
-  opacity:0.7;
-}
+  /* ---------- Sparkles between hearts ---------- */
+  .sparkle{
+    position: fixed;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    will-change: transform, opacity;
+    animation: sparkleFloat linear forwards;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,.22));
+  }
 
-/* ===== Main Card ===== */
+  @keyframes sparkleFloat{
+    0%{
+      transform: translate3d(0,-10vh,0) translateX(0) scale(0.8);
+      opacity: 0;
+    }
+    15%{ opacity: 0.95; }
+    100%{
+      transform: translate3d(0,110vh,0) translateX(var(--sdrift)) scale(1.35);
+      opacity: 0;
+    }
+  }
 
-.card{
-  opacity:0;
-  animation:reveal 1.5s ease forwards;
-  animation-delay:4.5s;
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(15px);
-  padding:35px;
-  border-radius:25px;
-  text-align:center;
-  border:1px solid rgba(255,255,255,0.1);
-  z-index:2;
-}
-
-@keyframes reveal{
-  to{opacity:1;}
-}
-
-.card h3{
-  font-size:1.8rem;
-  color:#ffb6d5;
-  margin-bottom:10px;
-  text-shadow:0 0 15px rgba(255,79,160,0.5);
-}
-
-.card p{
-  margin-bottom:20px;
-  color:#cbd5e1;
-}
-
-/* Heart */
-
-.heart{
-  width:120px;
-  height:120px;
-  margin:0 auto;
-  position:relative;
-  transform:rotate(-45deg);
-  background:linear-gradient(135deg,#ff2f86,#ff7ab8,#ffd3e7);
-  animation:beat 1s infinite ease-in-out;
-  cursor:pointer;
-  box-shadow:0 0 25px rgba(255,79,160,0.6);
-}
-
-.heart::before,
-.heart::after{
-  content:"";
-  width:120px;
-  height:120px;
-  position:absolute;
-  border-radius:50%;
-  background:inherit;
-}
-
-.heart::before{top:-60px;}
-.heart::after{left:60px;}
-
-@keyframes beat{
-  0%,100%{transform:rotate(-45deg) scale(1);}
-  50%{transform:rotate(-45deg) scale(1.2);}
-}
-
-.message{
-  margin-top:25px;
-  min-height:28px;
-  font-weight:600;
-  opacity:0;
-  transition:0.4s;
-  color:#ffd0e6;
-}
-
-.message.show{opacity:1;}
-
-.floating-heart{
-  position:absolute;
-  pointer-events:none;
-  animation:floatUp 3s ease forwards;
-}
-
-@keyframes floatUp{
-  0%{transform:translateY(0);opacity:1;}
-  100%{transform:translateY(-400px);opacity:0;}
-}
-
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    * { animation: none !important; transition: none !important; }
+    .snow-heart, .sparkle { display: none; }
+  }
 </style>
 </head>
 
 <body>
+  <div class="moonlight"></div>
+  <div class="sparkle-layer" id="sparkleLayer"></div>
 
-<!-- Intro -->
-<div class="intro">
-  <h2>A HEARTBEAT STORY</h2>
-  <h1>KHADIDJA 💖</h1>
-  <div class="director">DIRECTED BY HICHEM</div>
-</div>
-
-<!-- Main -->
-<div class="card">
-  <h3>KHADIDJA 💖</h3>
-  <p>Touch the heart and feel how it beats for you.</p>
-  <div class="heart" id="heart"></div>
-  <div class="message" id="message"></div>
-
-  <audio id="boom" src="cinematic-boom.mp3" preload="auto"></audio>
-  <audio id="beatSound" src="heartbeat.mp3" preload="auto"></audio>
-</div>
+  <div class="center">
+    <h1>KHADIDJA 💖</h1>
+    <p>Pink hearts are falling for you… ✨</p>
+  </div>
 
 <script>
+  // Wind gusts (realistic waves)
+  let wind = 0;
+  let windTarget = 0;
 
-const heart = document.getElementById("heart");
-const message = document.getElementById("message");
-const beatSound = document.getElementById("beatSound");
-const boom = document.getElementById("boom");
+  function updateWind(){
+    // Slowly change target wind, like gusts
+    windTarget = (Math.random() * 2 - 1) * 180; // -180px to +180px
+    const duration = 1800 + Math.random() * 2600;
 
-const lines=[
-"Every beat is for you 💓",
-"You’re my calm and my chaos 💞",
-"The world stops when I think of you 💫",
-"My heart whispers only your name ❤️",
-"You are my favorite thought 🥰"
-];
+    const start = performance.now();
+    const startWind = wind;
 
-/* Cinematic boom */
-window.addEventListener("load",()=>{
-  setTimeout(()=>{ boom.play().catch(()=>{}); },500);
-});
+    function tick(now){
+      const t = Math.min(1, (now - start) / duration);
+      // Smoothstep easing
+      const eased = t * t * (3 - 2 * t);
+      wind = startWind + (windTarget - startWind) * eased;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
 
-/* Falling Pink Hearts Snow */
-function createHeartSnow(){
-  const heart=document.createElement("div");
-  heart.classList.add("heart-snow");
-  heart.textContent="💗";
-  heart.style.left=Math.random()*100+"vw";
+    setTimeout(updateWind, 1500 + Math.random() * 2500);
+  }
+  updateWind();
 
-  const size=12+Math.random()*28;
-  heart.style.fontSize=size+"px";
+  // Heart shades for "changing while falling"
+  const heartColors = [
+    "hsl(330, 95%, 72%)",
+    "hsl(340, 92%, 70%)",
+    "hsl(320, 100%, 76%)",
+    "hsl(345, 90%, 74%)"
+  ];
 
-  const duration=6+Math.random()*8;
-  heart.style.animationDuration=duration+"s";
+  function rand(min, max){ return min + Math.random() * (max - min); }
 
-  const drift=Math.random()*200-100;
-  heart.style.setProperty("--drift",drift+"px");
+  function createSnowHeart(){
+    const el = document.createElement("div");
+    el.className = "snow-heart";
+    el.textContent = "💗";
 
-  heart.style.filter+=` blur(${Math.random()*2}px)`;
+    // Random horizontal position
+    el.style.left = Math.random() * 100 + "vw";
 
-  document.body.appendChild(heart);
+    // Depth: size, blur, opacity
+    const size = rand(12, 34);
+    el.style.fontSize = size + "px";
 
-  setTimeout(()=>heart.remove(),duration*1000);
-}
+    const duration = rand(5.5, 11.5);
+    el.style.animationDuration = duration + "s";
 
-setInterval(createHeartSnow,300);
+    // Drift includes wind + personal drift
+    const personal = rand(-120, 120);
+    el.style.setProperty("--drift", (personal + wind).toFixed(0) + "px");
 
-/* Heart Click */
-heart.addEventListener("click",()=>{
-  beatSound.currentTime=0;
-  beatSound.play().catch(()=>{});
+    // Subtle depth blur
+    const blur = rand(0, 2.2);
+    el.style.filter =
+      `blur(${blur.toFixed(2)}px) drop-shadow(0 0 10px rgba(255,105,180,.35))`;
 
-  const line=lines[Math.floor(Math.random()*lines.length)];
-  message.textContent=line;
-  message.classList.add("show");
-  setTimeout(()=>message.classList.remove("show"),2500);
+    // Slight opacity variance
+    el.style.opacity = rand(0.55, 0.95).toFixed(2);
 
-  for(let i=0;i<8;i++){
-    const el=document.createElement("div");
-    el.className="floating-heart";
-    el.textContent="💖";
-    el.style.left=Math.random()*100+"vw";
-    el.style.top="60%";
-    el.style.fontSize=(16+Math.random()*20)+"px";
+    // Hearts that change shade while falling
+    const c1 = heartColors[Math.floor(Math.random() * heartColors.length)];
+    const c2 = heartColors[Math.floor(Math.random() * heartColors.length)];
+    el.style.background = `linear-gradient(180deg, ${c1}, ${c2})`;
+    el.style.webkitBackgroundClip = "text";
+    el.style.backgroundClip = "text";
+    el.style.color = "transparent";
+
     document.body.appendChild(el);
-    setTimeout(()=>el.remove(),3000);
+
+    // Update drift mid-fall with new wind (feels like gusts)
+    const gustTimer = setInterval(() => {
+      const nextPersonal = personal + rand(-40, 40);
+      el.style.setProperty("--drift", (nextPersonal + wind).toFixed(0) + "px");
+    }, 900);
+
+    setTimeout(() => {
+      clearInterval(gustTimer);
+      el.remove();
+    }, duration * 1000);
   }
-});
 
+  function createSparkle(){
+    const el = document.createElement("div");
+    el.className = "sparkle";
+    el.textContent = Math.random() < 0.7 ? "✨" : "✦";
+
+    el.style.left = Math.random() * 100 + "vw";
+
+    const size = rand(10, 18);
+    el.style.fontSize = size + "px";
+
+    const duration = rand(4.5, 9.5);
+    el.style.animationDuration = duration + "s";
+
+    const personal = rand(-140, 140);
+    el.style.setProperty("--sdrift", (personal + wind * 0.7).toFixed(0) + "px");
+
+    el.style.opacity = rand(0.25, 0.85).toFixed(2);
+
+    // cooler shimmer
+    el.style.filter =
+      `blur(${rand(0, 1.6).toFixed(2)}px) drop-shadow(0 0 10px rgba(255,255,255,.22))`;
+
+    document.body.appendChild(el);
+
+    const gustTimer = setInterval(() => {
+      const nextPersonal = personal + rand(-50, 50);
+      el.style.setProperty("--sdrift", (nextPersonal + wind * 0.7).toFixed(0) + "px");
+    }, 900);
+
+    setTimeout(() => {
+      clearInterval(gustTimer);
+      el.remove();
+    }, duration * 1000);
+  }
+
+  // Tune density here
+  setInterval(createSnowHeart, 220);   // more hearts
+  setInterval(createSparkle, 360);     // sparkles between hearts
 </script>
-
 </body>
 </html>
-
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body{
-  font-family:'Poppins',sans-serif;
-  height:100vh;
-  overflow:hidden;
-  background:radial-gradient(circle at center,#140b25 0%,#080412 60%,#000 100%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-}
-
-/* ===== Snow Hearts ===== */
-
-.snow-heart{
-  position:fixed;
-  top:-10vh;
-  pointer-events:none;
-  user-select:none;
-  animation:fall linear forwards;
-  opacity:0.9;
-  z-index:1;
-}
-
-@keyframes fall{
-  0%{
-    transform:translateY(-10vh) translateX(0) rotate(0deg);
-    opacity:0;
-  }
-  10%{
-    opacity:1;
-  }
-  100%{
-    transform:translateY(110vh) translateX(var(--drift)) rotate(360deg);
-    opacity:0.8;
-  }
-}
-
-/* Soft glowing overlay */
-.glow-overlay{
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at 50% 30%,rgba(255,105,180,0.08),transparent 60%);
-  pointer-events:none;
-  z-index:0;
-}
-
-/* Optional center text */
-.center-text{
-  position:relative;
-  z-index:2;
-  text-align:center;
-}
-
-.center-text h1{
-  font-size:clamp(2rem,6vw,3rem);
-  color:#ffb6d5;
-  text-shadow:0 0 20px rgba(255,105,180,0.6);
-}
-
-.center-text p{
-  margin-top:10px;
-  color:#fbcfe8;
-  opacity:0.8;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="glow-overlay"></div>
-
-<div class="center-text">
-  <h1>KHADIDJA 💖</h1>
-  <p>Pink hearts are falling for you...</p>
-</div>
-
-<script>
-
-/* Create Snowing Pink Hearts */
-
-function createSnowHeart(){
-  const heart = document.createElement("div");
-  heart.classList.add("snow-heart");
-  heart.textContent = "💗";
-
-  // Random horizontal position
-  heart.style.left = Math.random() * 100 + "vw";
-
-  // Random size for depth
-  const size = 12 + Math.random() * 30;
-  heart.style.fontSize = size + "px";
-
-  // Random fall duration
-  const duration = 5 + Math.random() * 8;
-  heart.style.animationDuration = duration + "s";
-
-  // Wind drift
-  const drift = Math.random() * 200 - 100;
-  heart.style.setProperty("--drift", drift + "px");
-
-  // Depth blur
-  heart.style.filter = `blur(${Math.random()*2}px) drop-shadow(0 0 8px rgba(255,105,180,0.5))`;
-
-  document.body.appendChild(heart);
-
-  setTimeout(()=>{
-    heart.remove();
-  }, duration * 1000);
-}
-
-/* Continuous snow */
-setInterval(createSnowHeart, 250);
-
-</script>
-
-</body>
-</html>
-
